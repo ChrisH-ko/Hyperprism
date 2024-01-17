@@ -1,3 +1,5 @@
+import csv
+
 from .connection import Connection
 
 class Netlist():
@@ -6,4 +8,15 @@ class Netlist():
         self.connections = self.load_connections(netlist)
     
     def load_connections(self, netlist):
-        pass
+        connections = {}
+
+        with open(netlist, 'r') as file:
+            reader = csv.DictReader(file)
+
+            for row in reader:
+                a = row['chip_a']
+                b = row['chip_b']
+
+                connections[(a, b)] = Connection(a, b)
+        
+        return connections
