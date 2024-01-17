@@ -1,4 +1,5 @@
 from code.classes import chip
+from code.visualization import visualize as vis
 
 if __name__ == "__main__":
     chip_id = 0
@@ -10,3 +11,4 @@ if __name__ == "__main__":
     test_chip = chip.Chip(chip_id, chip_file, net_id, netlist)
 
     print(test_chip)
+    print(vis.visualize(test_chip))

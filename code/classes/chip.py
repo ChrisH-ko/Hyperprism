@@ -17,7 +17,7 @@ class Chip():
 
             for row in reader:
                 id = row['chip']
-                pos = (row['x'], row['y'])
+                pos = (int(row['x']), int(row['y']))
 
                 gates[id] = Gate(id, pos)
         
