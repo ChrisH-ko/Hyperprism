@@ -3,13 +3,14 @@ from .connection import Connection
 from .path import Path
 
 class Chip():
-    def __init__(self, gate_file, netlist):
-        self.gates = self.load_gates(gate_file)
-        self.connections = self.load_connections(netlist)
+    def __init__(self, chip_id, chip_file, net_id, netlist):
+        self.id = chip_id
+        self.gates = self.load_gates(chip_file)
+        self.netlist = self.load_netlist(net_id, netlist)
         self.intersections = 0
-    
-    def load_gates(self, gates):
+
+    def load_gates(self, chip_file):
         pass
 
-    def load_connections(self, netlist):
+    def load_netlist(self, net_id, netlist):
         pass
