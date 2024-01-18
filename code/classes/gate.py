@@ -4,4 +4,4 @@ class Gate():
         self.position = position
     
     def __repr__(self):
-        return self.id
+        return str(self.id)

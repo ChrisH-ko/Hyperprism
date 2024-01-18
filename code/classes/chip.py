@@ -1,7 +1,6 @@
 import csv
 
 from .gate import Gate
-from .netlist import Netlist
 from .connection import Connection
 
 class Chip():
@@ -18,7 +17,7 @@ class Chip():
             reader = csv.DictReader(file)
 
             for row in reader:
-                id = row['chip']
+                id = int(row['chip'])
                 pos = (int(row['x']), int(row['y']))
 
                 gates[id] = Gate(id, pos)
@@ -26,7 +25,7 @@ class Chip():
         return gates
 
 
-    def load_netlist(self, net_id, netlist):
+    def load_netlist(self, netlist):
         connections = {}
 
         with open(netlist, 'r') as file:
@@ -36,9 +35,28 @@ class Chip():
                 a = int(row['chip_a'])
                 b = int(row['chip_b'])
 
-                connections[(a, b)] = Connection(self.gates[a], self.gates[b])
+                connections[(a, b)] = Connection((a, b), self.gates[a], self.gates[b])
         
         return connections
+    
+    def valid_connection(self, net):
+        return self.netlist[net].valid()
+    
+    def valid_moves(self, net):
+        gates = [self.gates[i].position for i in self.gates]
+
+        moves = net.moves()
+        target = net.end.position
+
+        gates.remove(target)
+
+        valid_moves = [x for x in moves if x not in gates]
+
+        return valid_moves
+    
+    def print_netlist(self):
+        for net in self.netlist:
+            print(self.netlist[net].id, self.netlist[net].path)
     
     def __repr__(self):
         return 'test'
