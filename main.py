@@ -8,7 +8,7 @@ from code.analysis import test1000 as test
 
 if __name__ == "__main__":
     chip_id = 1
-    net_id = 6
+    net_id = 4
 
     chip_file = f'gates&netlists/chip_{chip_id}/print_{chip_id}.csv'
     netlist = f'gates&netlists/chip_{chip_id}/netlist_{net_id}.csv'
@@ -22,9 +22,10 @@ if __name__ == "__main__":
 
     # ------------------------ Random order astar-------------------
     rad.random_astar(model)
-    model.print_netlist()
+    # model.print_netlist()
+    print(model.total_cost(), str(model.net_completion()*100) + '%% complete')
     vis.visualize(model)
 
     # ------------------------ baseline test -----------------------
-    # m, costs, comp = test.run_1000(blank, rad.random_astar)
-    # display.test_data(comp, costs)
+    #m, costs, comp = test.run_1000(blank, rad.random_astar)
+    #display.test_data(comp, costs)

@@ -13,26 +13,13 @@ def visualize(model):
     gates_y = [chip.gates[i].position[1] for i in chip.gates]
     gates_z = [chip.gates[i].position[2] for i in chip.gates]
 
-    # plt.scatter(gates_x, gates_y)
-    # plt.xlim(0, max(gates_x)+1.05)
-    # plt.ylim(-0.05, max(gates_y)+1)
-
     fig = go.Figure()
-
-    # fig.update_xaxes(range=[0, max(gates_x)+1], nticks=max(gates_x)+2, showticklabels=False, constrain="domain")
-    # fig.update_yaxes(range=[0, max(gates_y)+1],
-    #                 nticks=max(gates_y)+2,
-    #                 showticklabels=False,
-    #                 scaleanchor = "x",
-    #                 scaleratio = 1,)
-    # fig.update_zaxes(range=[0, 7])
 
     fig.add_trace(go.Scatter3d(x=gates_x, y=gates_y, z = gates_z,
                     mode='markers',
                     name='gates',
                     marker= dict(symbol='square')))
 
-    # ax = plt.gca()
     for i, net in enumerate(chip.netlist):
         if i % 2 == 0:
             clr = 'magenta'
@@ -50,39 +37,25 @@ def visualize(model):
                 name=str(net),
                 line = dict(color=clr, width=4)))
 
-        # path = Path(path)
-        # patch = patches.PathPatch(path, facecolor='none', lw=2)
-        # ax.add_patch(patch)
-
-
     fig.update_layout(
         scene = dict(
             xaxis = dict(
                 range=[0, max(gates_x)+1],
                 nticks=max(gates_x)+2,
-                showticklabels=False,
-                # constrain="domain"
+                showticklabels=False
             ),
             yaxis = dict(
                 range=[0, max(gates_y)+1],
                 nticks=max(gates_y)+2,
-                showticklabels=False,
+                showticklabels=False
             ),
             zaxis = dict(
                 range=[-1, 7],
                 nticks = 9,
                 showticklabels=False
-            )
+            ),
+            aspectmode='data'
         ),
         showlegend=False
     )
     fig.show()
-    # plt.box(False)
-    # plt.tick_params(length=0, width=0, labelsize=0)
-    # plt.grid()
-
-    # ax.set_aspect("equal")
-    # ax.set_xticks([i for i in range(0, max(gates_x)+2)])
-    # ax.set_yticks([i for i in range(0, max(gates_y)+2)])
-    # ax.set_axisbelow(True)
-    # plt.show()

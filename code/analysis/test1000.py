@@ -8,7 +8,7 @@ def run_1000(model, algorithm):
     completions = []
     models = []
 
-    for i in tqdm.tqdm(range(1000)):
+    for i in tqdm.tqdm(range(50)):
         model_instance = model.copy_model()
 
         algorithm(model_instance)
