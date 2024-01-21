@@ -2,11 +2,9 @@ import copy
 
 from .functions.manhattan_distance import manhattan
 
-def standard_astar(model, queue, heuristic):
+def standard_astar(model, queue):
     archive = set()
 
-    max = 200
-    i = 0
     while len(queue) > 0:
         
         while queue[0].current_node in archive:
@@ -36,12 +34,5 @@ def standard_astar(model, queue, heuristic):
         if len(queue) > 0:
             if queue[0].complete():
                 id = queue[0].connection.id
-
-                model.paths[id] = queue[0]
-
+                model.add_path(id, queue[0])
                 queue = [path for path in queue if id != path.connection.id]
-        
-        i += 1
-        if i > max:
-            print('out of range')
-            break
