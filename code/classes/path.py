@@ -1,3 +1,5 @@
+import copy
+
 class Path():
     def __init__(self, connection):
         self.connection = connection
@@ -51,7 +53,12 @@ class Path():
         
         return neighbours
 
+    def copy_path(self):
+        new_path = copy.copy(self)
+        new_path.segments = copy.copy(self.segments)
 
+        return new_path
+    
     def __len__(self):
         return len(self.segments) - 1
 

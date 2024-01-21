@@ -1,3 +1,4 @@
+import copy
 from .path import Path
 
 class Model():
@@ -6,7 +7,7 @@ class Model():
         self.paths = self.load_paths(chip)
         self.intersections = 0
     
-    
+
     def load_paths(self, chip):
         paths = {}
 
@@ -90,6 +91,7 @@ class Model():
         k = self.check_intersections(path)
         return len(path) + k * 300
     
+
     def total_cost(self):
         chip = self.chip
 
@@ -100,7 +102,25 @@ class Model():
         k = self.intersections
 
         return total_length + k * 300
+    
 
+    def net_completion(self):
+        complete_nets = 0
+        total_nets = len(self.chip.netlist)
+
+        for net in self.chip.netlist:
+            if self.complete_connection(net):
+                complete_nets += 1
+        
+        return complete_nets / total_nets
+
+    def copy_model(self):
+        new_model = copy.copy(self)
+
+        for net in self.chip.netlist:
+            new_model.paths[net] = self.paths[net].copy_path
+        
+        return new_model
     
     def print_netlist(self):
         id = self.chip.id
