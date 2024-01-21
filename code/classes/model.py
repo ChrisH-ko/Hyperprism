@@ -101,6 +101,11 @@ class Model():
         
         k = self.intersections
 
+        # unfinished_nets = 0
+        # for net in self.chip.netlist:
+        #     if self.complete_connection(net) is False:
+        #         unfinished_nets += 1
+
         return total_length + k * 300
     
 
@@ -116,9 +121,11 @@ class Model():
 
     def copy_model(self):
         new_model = copy.copy(self)
+        new_model.paths = copy.copy(self.paths)
+        new_model.intersections = copy.copy(self.intersections)
 
-        for net in self.chip.netlist:
-            new_model.paths[net] = self.paths[net].copy_path
+        for net in new_model.chip.netlist:
+            new_model.paths[net] = self.paths[net].copy_path()
         
         return new_model
     

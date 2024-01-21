@@ -18,7 +18,7 @@ def standard_astar(model, queue):
         archive.update(new_moves)
 
         for x in new_moves:
-            child = copy.deepcopy(path)
+            child = path.copy_path()
             child.move(x)
             child.heuristic = model.path_cost(child) + manhattan(child)
 

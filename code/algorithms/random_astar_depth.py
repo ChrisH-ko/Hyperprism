@@ -11,8 +11,6 @@ def random_astar(model):
 
     random.shuffle(connections)
 
-    print(connections)
     for net_id in connections:
         queue = [paths[net_id]]
         standard_astar(model, queue)
-        vis.visualize(model)
