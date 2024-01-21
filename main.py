@@ -7,8 +7,8 @@ from code.algorithms import random_astar_depth as rad
 from code.analysis import test1000 as test
 
 if __name__ == "__main__":
-    chip_id = 2
-    net_id = 9
+    chip_id = 0
+    net_id = 3
 
     chip_file = f'gates&netlists/chip_{chip_id}/print_{chip_id}.csv'
     netlist = f'gates&netlists/chip_{chip_id}/netlist_{net_id}.csv'
@@ -26,5 +26,5 @@ if __name__ == "__main__":
     vis.visualize(model)
 
     # ------------------------ baseline test -----------------------
-    m, costs, comp = test.run_1000(blank, rad.random_astar)
-    display.test_data(comp, costs)
+    # m, costs, comp = test.run_1000(blank, rad.random_astar)
+    # display.test_data(comp, costs)
