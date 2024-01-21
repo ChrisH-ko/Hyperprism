@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.path import Path
 
-def visualize(chip):
+def visualize(model):
+    chip = model.chip
+    paths = model.paths
 
     gates_x = [chip.gates[i].position[0] for i in chip.gates]
     gates_y = [chip.gates[i].position[1] for i in chip.gates]
@@ -14,7 +16,7 @@ def visualize(chip):
 
     ax = plt.gca()
     for net in chip.netlist:
-        path = chip.netlist[net].path
+        path = paths[net].segments
 
         path = Path(path)
         patch = patches.PathPatch(path, facecolor='none', lw=2)

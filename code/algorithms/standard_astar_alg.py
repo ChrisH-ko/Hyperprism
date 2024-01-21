@@ -1,22 +1,28 @@
 import copy
 
-def standard_astar(chip, queue, heuristic):
+from .functions.manhattan_distance import manhattan
+
+def standard_astar(model, queue, heuristic):
     archive = set()
 
+    max = 200
+    i = 0
     while len(queue) > 0:
         
-        while queue[0] in archive:
+        while queue[0].current_node in archive:
             queue.pop(0)
         
         path = queue.pop(0)
-        archive.add(path)
+        archive.add(path.current_node())
 
-        moves = chip.valid_moves(path)
+        moves = model.valid_moves(path)
+        new_moves = [x for x in moves if x not in archive]
+        archive.update(new_moves)
 
-        for x in moves:
+        for x in new_moves:
             child = copy.deepcopy(path)
             child.move(x)
-            child.heuristic = len(child) + manhattan(child)
+            child.heuristic = model.path_cost(child) + manhattan(child)
 
             if len(queue) == 0:
                 queue.append(child)
@@ -25,19 +31,17 @@ def standard_astar(chip, queue, heuristic):
                     if child.heuristic <= queue[i].heuristic:
                         queue.insert(i, child)
                         break
+                queue.append(child)
         
-        if queue[0].valid():
-            id = queue[0].id
+        if len(queue) > 0:
+            if queue[0].complete():
+                id = queue[0].connection.id
 
-            chip.netlist[id] = queue[0]
+                model.paths[id] = queue[0]
 
-            queue = [net for net in queue if id != net.id]
-
-
-def manhattan(net):
-    
-    a = net.path[-1]
-    b = net.end.position
-
-    m_distance = abs(a[0] - b[0]) + abs(a[1] - b[1])
-    return m_distance
+                queue = [path for path in queue if id != path.connection.id]
+        
+        i += 1
+        if i > max:
+            print('out of range')
+            break
