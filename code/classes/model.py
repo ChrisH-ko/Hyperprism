@@ -47,8 +47,8 @@ class Model():
         valid_moves = [p for p in moves if p not in gates]
 
         l, u = chip.dim
-        valid_moves = [p for p in valid_moves if p[0] >= l[0] and p[1] >= l[1]]
-        valid_moves = [p for p in valid_moves if p[0] <= u[0] and p[1] <= u[1]]
+        valid_moves = [p for p in valid_moves if p[0] >= l[0] and p[1] >= l[1] and p[2] >= l[2]]
+        valid_moves = [p for p in valid_moves if p[0] <= u[0] and p[1] <= u[1] and p[2] <= u[2]]
 
         valid_moves = self.check_collisions(current_node, valid_moves)
 

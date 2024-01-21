@@ -18,9 +18,9 @@ class Path():
             return False
 
     def moves(self):
-        x, y = self.segments[-1]
+        x, y, z = self.segments[-1]
 
-        next_state = [(x+1,y), (x,y+1), (x-1,y), (x,y-1)]
+        next_state = [(x+1,y,z), (x,y+1,z), (x-1,y,z), (x,y-1,z), (x,y,z+1), (x,y,z-1)]
 
         valid_moves = [x for x in next_state if x not in self.segments]
 

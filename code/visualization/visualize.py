@@ -11,7 +11,7 @@ def visualize(model):
 
     gates_x = [chip.gates[i].position[0] for i in chip.gates]
     gates_y = [chip.gates[i].position[1] for i in chip.gates]
-    gates_z = [0 for i in chip.gates]
+    gates_z = [chip.gates[i].position[2] for i in chip.gates]
 
     # plt.scatter(gates_x, gates_y)
     # plt.xlim(0, max(gates_x)+1.05)
@@ -33,17 +33,22 @@ def visualize(model):
                     marker= dict(symbol='square')))
 
     # ax = plt.gca()
-    for net in chip.netlist:
+    for i, net in enumerate(chip.netlist):
+        if i % 2 == 0:
+            clr = 'magenta'
+        else:
+            clr = 'red'
+        
         path = paths[net].segments
 
         x = [xy[0] for xy in path]
         y = [xy[1] for xy in path]
-        z = [0 for xy in path]
+        z = [xy[2] for xy in path]
 
         fig.add_trace(go.Scatter3d(x=x, y=y, z =z,
                 mode='lines',
                 name=str(net),
-                line = dict(color='red', width=4)))
+                line = dict(color=clr, width=4)))
 
         # path = Path(path)
         # patch = patches.PathPatch(path, facecolor='none', lw=2)
@@ -68,7 +73,8 @@ def visualize(model):
                 nticks = 9,
                 showticklabels=False
             )
-        )
+        ),
+        showlegend=False
     )
     fig.show()
     # plt.box(False)

@@ -7,8 +7,8 @@ from code.algorithms import random_astar_depth as rad
 from code.analysis import test1000 as test
 
 if __name__ == "__main__":
-    chip_id = 0
-    net_id = 3
+    chip_id = 1
+    net_id = 6
 
     chip_file = f'gates&netlists/chip_{chip_id}/print_{chip_id}.csv'
     netlist = f'gates&netlists/chip_{chip_id}/netlist_{net_id}.csv'

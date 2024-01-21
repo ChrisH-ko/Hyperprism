@@ -18,7 +18,7 @@ class Chip():
 
             for row in reader:
                 id = int(row['chip'])
-                pos = (int(row['x']), int(row['y']))
+                pos = (int(row['x']), int(row['y']), 0)
 
                 gates[id] = Gate(id, pos)
         
@@ -43,7 +43,7 @@ class Chip():
         gates_x = [self.gates[i].position[0] for i in self.gates]
         gates_y = [self.gates[i].position[1] for i in self.gates]
 
-        return ((0, 0), (max(gates_x)+1, max(gates_y)+1))
+        return ((0, 0, 0), (max(gates_x)+1, max(gates_y)+1, 7))
     
     def __repr__(self):
         return 'test'
