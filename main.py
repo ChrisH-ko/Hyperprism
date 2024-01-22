@@ -27,6 +27,7 @@ if __name__ == "__main__":
     vis.visualize(model)
 
     # ------------------------ baseline test -----------------------
-    m, costs, comp = test.run_1000(blank, rad.random_astar, save=True)
-    # display.test_data(comp, costs)
-    display.distribution(costs)
+    baseline_test = False
+    if baseline_test:
+        m, costs, comp = test.run_1000(blank, rad.random_astar, save=True)
+        display.distribution(costs)

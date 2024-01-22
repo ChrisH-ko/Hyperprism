@@ -12,12 +12,14 @@ def visualize(model):
     gates_x = [chip.gates[i].position[0] for i in chip.gates]
     gates_y = [chip.gates[i].position[1] for i in chip.gates]
     gates_z = [chip.gates[i].position[2] for i in chip.gates]
+    gate_ids = ['id: ' + str(chip.gates[i].id) for i in chip.gates]
 
     fig = go.Figure()
 
     fig.add_trace(go.Scatter3d(x=gates_x, y=gates_y, z = gates_z,
                     mode='markers',
                     name='gates',
+                    text=gate_ids,
                     marker= dict(symbol='square')))
 
     for i, net in enumerate(chip.netlist):
