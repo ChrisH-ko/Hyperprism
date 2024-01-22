@@ -28,7 +28,7 @@ class Model():
         if id is not path.connection.id:
             print("id and path do not match")
         elif path.complete():
-            k = self.check_intersections(path)
+            k = self.count_intersections(path)
             self.paths[id] = path
             self.intersections += k
         else:
@@ -81,7 +81,7 @@ class Model():
 
         return k
     
-    def Filter_collisions(self, current_node, moves):
+    def filter_collisions(self, current_node, moves):
         """
         Filter out moves that would cause a collision with another path.
         """
