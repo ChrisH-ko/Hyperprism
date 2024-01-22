@@ -12,6 +12,9 @@ class Chip():
         self.dim = self.load_dim()
 
     def load_gates(self, chip_file):
+        """
+        Load the gates onto the chip.
+        """
         gates = {}
         with open(chip_file, 'r') as file:
             reader = csv.DictReader(file)
@@ -24,8 +27,10 @@ class Chip():
         
         return gates
 
-
     def load_netlist(self, netlist):
+        """
+        Load the netlist onto the chip.
+        """
         connections = {}
 
         with open(netlist, 'r') as file:
@@ -40,10 +45,46 @@ class Chip():
         return connections
 
     def load_dim(self):
+        """
+        Return the coordinates that encloses the chip.
+        Includes the 7 extra layers on the z-axis.
+        """
         gates_x = [self.gates[i].position[0] for i in self.gates]
         gates_y = [self.gates[i].position[1] for i in self.gates]
 
         return ((0, 0, 0), (max(gates_x)+1, max(gates_y)+1, 7))
     
+    def get_nets(self):
+        """
+        Returns the nets in the netlist.
+        """
+        return [net for net in self.netlist]
+    
+    def check_valid_pos(self, pos):
+        """
+        Check if a position is in the range of the chip and not occupied
+        by an existing gate.
+        """
+        gates = [self.gates[i].position for i in self.gates]
+        lower, upper = self.load_dim()
+
+        if pos in gates:
+            return False
+        
+        for i, l, u in zip(pos, lower, upper):
+            if i < l or u < i:
+                return False
+        
+        return True
+        
     def __repr__(self):
-        return 'test'
+        """
+        Make sure that the object is printed properly if it is in a list/dict.
+        """
+        gates = 'Gates: ' + str(len(self.gates))
+        netlist = '\nNetlist: '
+
+        for net in self.get_nets():
+            netlist += '\n' + str(net)
+
+        return gates + netlist

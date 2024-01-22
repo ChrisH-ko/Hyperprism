@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     # ------------------------ Random order astar-------------------
     rad.random_astar(model)
-    # model.print_netlist()
+    # model.show_netlist()
     print(model.total_cost(), str(model.net_completion()*100) + '%% complete')
     vis.visualize(model)
 
