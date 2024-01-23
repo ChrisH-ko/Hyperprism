@@ -12,21 +12,29 @@ def visualize(model):
     gates_x = [chip.gates[i].position[0] for i in chip.gates]
     gates_y = [chip.gates[i].position[1] for i in chip.gates]
     gates_z = [chip.gates[i].position[2] for i in chip.gates]
-    gate_ids = ['id: ' + str(chip.gates[i].id) for i in chip.gates]
+    gate_text = [str(chip.gates[i].id) for i in chip.gates]
+    gate_h = ['id: ' + txt for txt in gate_text]
 
     fig = go.Figure()
 
     fig.add_trace(go.Scatter3d(x=gates_x, y=gates_y, z = gates_z,
-                    mode='markers',
+                    mode='markers+text',
                     name='gates',
-                    text=gate_ids,
-                    marker= dict(symbol='square')))
+                    text=gate_text,
+                    hovertext=gate_h,
+                    textposition='top left',
+                    textfont=dict(
+                        size=18
+                        ),
+                    marker= dict(
+                        symbol='square',
+                        color='red')))
 
     for i, net in enumerate(chip.netlist):
         if i % 2 == 0:
-            clr = 'magenta'
+            clr = '#0749b3'
         else:
-            clr = 'red'
+            clr = '#56a9d6'
         
         path = paths[net].segments
 
