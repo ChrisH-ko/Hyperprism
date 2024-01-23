@@ -12,20 +12,17 @@ def run_1000(model, algorithm, save=True):
         file = open("outputs/test1000.txt", 'w')
 
     for i in tqdm.tqdm(range(150)):
-        model_instance = model.copy_model()
+        solution = algorithm(model)
 
-        algorithm(model_instance)
+        cost = solution.cost()
+        completion = solution.completion()
 
-        cost = model_instance.total_cost()
-        completion = model_instance.net_completion()
-
-        models.append(model_instance)
+        models.append(solution)
         costs.append(cost)
         completions.append(completion)
     
         if save:
             file.write(str(cost) + ', ' + str(completion) + '\n')
-
 
     if save:
         file.close()

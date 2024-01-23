@@ -1,14 +1,28 @@
 import random
-from .standard_astar_alg import standard_astar
+import tqdm
 
-def random_astar(model):
-    chip = model.chip
-    paths = model.paths
+from .standard_astar_alg import Standard_pathwise_astar, standard_astar
 
-    connections = list(chip.netlist.keys())
+class Random_Order_Astar():
+    def __init__(self, model):
+        self.model = model.copy_model()
+        self.nets = self.shuffle_nets()
 
-    random.shuffle(connections)
-
-    for net_id in connections:
-        queue = [paths[net_id]]
-        standard_astar(model, queue)
+    def shuffle_nets(self):
+        nets = list(self.model.get_nets())
+        random.shuffle(nets)
+        return nets
+    
+    def cost(self):
+        return self.model.total_cost()
+    
+    def completion(self):
+        return self.model.net_completion()
+    
+    def run(self):
+        for net in tqdm.tqdm(self.nets):
+            path = self.model.paths[net]
+            solver = Standard_pathwise_astar(self.model, path)
+            solver.run()
+            new_path = solver.solution
+            self.model.paths[net] = new_path
