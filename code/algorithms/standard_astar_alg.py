@@ -1,5 +1,3 @@
-import copy
-
 from .functions.manhattan_distance import manhattan
 
 def standard_astar(model, queue):
