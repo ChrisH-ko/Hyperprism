@@ -5,7 +5,7 @@ class Standard_pathwise_astar():
         self.model = model
         self.queue = [path]
         self.archive = set(path.current_node())
-        self.solution = None
+        self.solution = path
 
     def remove_visited_nodes(self):
         while self.queue[0].current_node in self.archive:

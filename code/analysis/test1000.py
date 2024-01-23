@@ -1,18 +1,19 @@
 import tqdm
 
-def run_1000(model, algorithm, save=True):
+def run_n(model, algorithm, iterations, save=True):
     """
-    Run an algorithm 1000 times and compile the results.
+    Run an algorithm n times and compile the results.
     """
     costs = []
     completions = []
     models = []
 
     if save:
-        file = open("outputs/test1000.txt", 'w')
+        file = open(f"outputs/test{iterations}.txt", 'w')
 
-    for i in tqdm.tqdm(range(150)):
-        solution = algorithm(model)
+    for i in tqdm.tqdm(range(iterations)):
+        solution = algorithm(model, verbose=False)
+        solution.run()
 
         cost = solution.cost()
         completion = solution.completion()

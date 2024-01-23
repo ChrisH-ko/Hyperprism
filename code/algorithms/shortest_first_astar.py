@@ -3,7 +3,7 @@ import tqdm
 from .standard_astar_alg import Standard_pathwise_astar
 from .functions.manhattan_distance import manhattan
 
-class shortest_first_astar():
+class Shortest_first_astar():
     def __init__(self, model):
         self.model = model.copy_model()
         self.nets = self.sort_nets()
