@@ -31,8 +31,8 @@ class shortest_first_astar():
         return self.model.net_completion()
     
     def run(self):
-        for path in self.nets:
+        for path in tqdm.tqdm(self.nets):
             solver = Standard_pathwise_astar(self.model, path)
             solver.run()
             new_path = solver.solution
-            self.model.paths[new_path.connection.id] = new_path
+            self.model.add_path(new_path.connection.id, new_path)

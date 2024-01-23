@@ -8,8 +8,8 @@ from code.algorithms import shortest_first_astar as sfa
 from code.analysis import test1000 as test
 
 if __name__ == "__main__":
-    chip_id = 0
-    net_id = 1
+    chip_id = 2
+    net_id = 7
 
     chip_file = f'gates&netlists/chip_{chip_id}/print_{chip_id}.csv'
     netlist = f'gates&netlists/chip_{chip_id}/netlist_{net_id}.csv'

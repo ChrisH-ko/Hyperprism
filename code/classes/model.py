@@ -25,7 +25,7 @@ class Model():
         """
         Add a completed path to the corresponding net.
         """
-        if id is not path.connection.id:
+        if id != path.connection.id:
             print("id and path do not match")
         elif path.complete():
             k = self.count_intersections(path)

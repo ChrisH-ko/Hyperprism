@@ -25,4 +25,4 @@ class Random_Order_Astar():
             solver = Standard_pathwise_astar(self.model, path)
             solver.run()
             new_path = solver.solution
-            self.model.paths[net] = new_path
+            self.model.add_path(net, new_path)
