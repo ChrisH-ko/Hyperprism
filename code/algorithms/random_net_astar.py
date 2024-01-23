@@ -1,7 +1,7 @@
 import random
 import tqdm
 
-from .standard_astar_alg import Standard_pathwise_astar, standard_astar
+from .standard_astar_alg import Standard_pathwise_astar
 
 class Random_Order_Astar():
     def __init__(self, model):

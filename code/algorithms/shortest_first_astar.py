@@ -1,6 +1,6 @@
 import tqdm
 
-from .standard_astar_alg import Standard_pathwise_astar, standard_astar
+from .standard_astar_alg import Standard_pathwise_astar
 from .functions.manhattan_distance import manhattan
 
 class shortest_first_astar():

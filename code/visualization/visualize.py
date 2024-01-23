@@ -5,8 +5,14 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.path import Path
 
-def visualize(model):
+def visualize(solver):
+    model = solver.model
+    total_cost = model.total_cost()
+
     chip = model.chip
+    chip_id = chip.id
+    netlist_id = chip.net_id
+
     paths = model.paths
 
     gates_x = [chip.gates[i].position[0] for i in chip.gates]
@@ -48,6 +54,15 @@ def visualize(model):
                 line = dict(color=clr, width=4)))
 
     fig.update_layout(
+        title=dict(
+            text=f"Chip {chip_id} <br>Netlist #{netlist_id} <br>Total cost: {total_cost}",
+            xanchor='right',
+            yanchor='top',
+            x = 0.5,
+            y = 0.9),
+        font=dict(
+            size=16
+        ),
         scene = dict(
             xaxis = dict(
                 range=[0, max(gates_x)+1],
