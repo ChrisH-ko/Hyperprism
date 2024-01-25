@@ -6,6 +6,9 @@ class Path():
         self.segments = [connection.start.position]
 
         self.heuristic = 0
+
+    # def path_manhattan(self):
+    #     return manhattan(self.current_node(), self.connection.end.position)
     
     def complete(self):
         """
@@ -27,7 +30,7 @@ class Path():
         """
         x, y, z = self.segments[-1]
 
-        next_state = [(x+1,y,z), (x,y+1,z), (x-1,y,z), (x,y-1,z), (x,y,z+1), (x,y,z-1)]
+        next_state = [(x,y,z+1), (x,y,z-1), (x+1,y,z), (x,y+1,z), (x-1,y,z), (x,y-1,z)]
 
         # Filter out positions we have already visited.
         valid_moves = [x for x in next_state if x not in self.segments]

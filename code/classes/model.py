@@ -142,11 +142,9 @@ class Model():
         Copies a model from itself.
         """
         new_model = copy.copy(self)
-        new_model.paths = copy.copy(self.paths)
+        new_model.paths = {net_id: path.copy_path() for net_id, path in self.paths.items()}
+        
         new_model.intersections = copy.copy(self.intersections)
-
-        for net in new_model.chip.netlist:
-            new_model.paths[net] = self.paths[net].copy_path()
         
         return new_model
     

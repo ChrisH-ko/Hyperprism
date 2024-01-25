@@ -2,6 +2,9 @@ import tqdm
 
 from .standard_astar_alg import Standard_pathwise_astar
 from .functions.manhattan_distance import manhattan
+from .functions.priority_queue import Priority_Queue
+from code.visualization import visualize as vis
+
 
 class Shortest_first_astar():
     def __init__(self, model):
@@ -9,20 +12,14 @@ class Shortest_first_astar():
         self.nets = self.sort_nets()
     
     def sort_nets(self):
-        nets = []
+        nets = Priority_Queue()
 
         for net in self.model.get_nets():
             path  = self.model.paths[net]
-            path.heuristic = manhattan(path)
 
-            for i in range(len(nets)):
-                if path.heuristic <= nets[i].heuristic:
-                    nets.insert(i, path)
-                    break
-            if path not in nets:
-                nets.append(path)
+            nets.add(path, manhattan(path))
         
-        return nets
+        return nets.get_all()
     
     def cost(self):
         return self.model.total_cost()
