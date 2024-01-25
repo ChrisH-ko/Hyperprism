@@ -4,7 +4,9 @@ from code.classes import model as mod
 from code.visualization import visualize as vis
 from code.visualization import display_data as display
 from code.algorithms.netlist_solver import net_solver as ns
-from code.algorithms.netlist_solver import shortest_first_solver as sfa
+from code.algorithms.netlist_solver import shortest_first_solver as sfs
+from code.algorithms.netlist_solver import hardest_first_solver as hfs
+
 from code.analysis import test1000 as test
 
 if __name__ == "__main__":
@@ -19,19 +21,27 @@ if __name__ == "__main__":
 
     # Create a model from our chip to create the connections in
     model = mod.Model(test_chip)
-    # ------------------------ Random order astar-------------------
-    rno = ns.Random_Net_Order(model)
-    rno.run()
-    print(rno.cost(), str(rno.completion()*100) + '%% complete')
-    vis.vis_solver(rno)
+    # ------------------------ Random order astar -------------------
+    # rno = ns.Random_Net_Order(model)
+    # rno.run()
+    # print(rno.cost(), str(rno.completion()*100) + '%% complete')
+    # vis.vis_solver(rno)
 
-    # ------------------------ shortest first astar-----------------
-    sno = sfa.Shortest_Net_Order(model)
-    sno.run()
-    print(sno.cost(), str(sno.completion()*100) + '%% complete')
-    vis.vis_solver(sno)
+    # ------------------------ shortest first astar -----------------
+    # sno = sfs.Shortest_Net_Order(model)
+    # sno.run()
+    # print(sno.cost(), str(sno.completion()*100) + '%% complete')
+    # vis.vis_solver(sno)
 
-    # ------------------------ baseline test -----------------------
+    # ------------------------ hardest first astar ------------------
+    hno = hfs.Hardest_Net_Order(model)
+    hno.run()
+    print(hno.nets)
+    print(hno.cost(), str(hno.completion()*100) + '%% complete')
+    vis.vis_solver(hno)
+
+
+    # ------------------------ baseline test ------------------------
     baseline_test = False
     if baseline_test:
         m, costs, comp = test.run_n(model, ns.Random_Net_Order, 100, save=True)
