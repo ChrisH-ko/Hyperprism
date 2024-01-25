@@ -3,8 +3,8 @@ from code.classes import model as mod
 
 from code.visualization import visualize as vis
 from code.visualization import display_data as display
-from code.algorithms import random_net_astar as rna
-from code.algorithms import shortest_first_astar as sfa
+from code.algorithms.netlist_solver import net_solver as ns
+from code.algorithms.netlist_solver import shortest_first_solver as sfa
 from code.analysis import test1000 as test
 
 if __name__ == "__main__":
@@ -20,20 +20,20 @@ if __name__ == "__main__":
     # Create a model from our chip to create the connections in
     model = mod.Model(test_chip)
     # ------------------------ Random order astar-------------------
-    rod = rna.Random_Order_Astar(model)
-    rod.run()
-    print(rod.cost(), str(rod.completion()*100) + '%% complete')
-    vis.vis_solver(rod)
+    rno = ns.Random_Net_Order(model)
+    rno.run()
+    print(rno.cost(), str(rno.completion()*100) + '%% complete')
+    vis.vis_solver(rno)
 
     # ------------------------ shortest first astar-----------------
-    sa = sfa.Shortest_first_astar(model)
-    sa.run()
-    print(sa.cost(), str(sa.completion()*100) + '%% complete')
-    vis.vis_solver(sa)
+    sno = sfa.Shortest_Net_Order(model)
+    sno.run()
+    print(sno.cost(), str(sno.completion()*100) + '%% complete')
+    vis.vis_solver(sno)
 
     # ------------------------ baseline test -----------------------
     baseline_test = False
     if baseline_test:
-        m, costs, comp = test.run_n(model, rna.Random_Order_Astar, 100, save=True)
+        m, costs, comp = test.run_n(model, ns.Random_Net_Order, 100, save=True)
         display.distribution(costs)
         vis.visualize(m)

@@ -1,5 +1,5 @@
-from .functions.manhattan_distance import manhattan
-from .functions.priority_queue import Priority_Queue
+from code.algorithms.functions.manhattan_distance import manhattan
+from code.algorithms.functions.priority_queue import Priority_Queue
 
 class Standard_pathwise_astar():
     def __init__(self, model, path):

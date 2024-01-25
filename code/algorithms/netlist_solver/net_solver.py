@@ -1,18 +1,16 @@
 import random
 import tqdm
 
-from .standard_astar_alg import Standard_pathwise_astar
+from code.algorithms.path_solver.standard_astar_alg import Standard_pathwise_astar
 
-class Random_Order_Astar():
+class Net_Solver():
     def __init__(self, model, verbose=True):
         self.model = model.copy_model()
-        self.nets = self.shuffle_nets()
+        self.nets = self.get_net_order()
         self.verbose = verbose
 
-    def shuffle_nets(self):
-        nets = list(self.model.get_nets())
-        random.shuffle(nets)
-        return nets
+    def get_net_order(self):
+        return list(self.model.paths.values)
     
     def cost(self):
         return self.model.total_cost()
@@ -28,7 +26,14 @@ class Random_Order_Astar():
 
         for net in nets:
             path = self.model.paths[net]
+
             solver = Standard_pathwise_astar(self.model, path)
             solver.run()
             new_path = solver.solution
             self.model.add_path(net, new_path)
+
+class Random_Net_Order(Net_Solver):
+    def get_net_order(self):
+        nets = list(self.model.get_nets())
+        random.shuffle(nets)
+        return nets
