@@ -1,7 +1,20 @@
 import plotly.graph_objects as go
+import csv
 
-def test_data(X, Y):
-    pass
+def load_txt(filepath):
+    data = []
+    with open(filepath, 'r') as f:
+        reader = csv.reader(f, delimiter=',')
+
+        for row in reader:
+            row = tuple(row)
+            cost = int(row[0])
+            completion = int(float(row[1]))
+
+            if completion == 1:
+                data.append(cost)
+    f.close()
+    return data
 
 def distribution(values):
     fig = go.Figure(data=[go.Histogram(x=values,

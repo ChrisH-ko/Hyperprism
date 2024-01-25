@@ -24,6 +24,7 @@ class Chip():
                 pos = (int(row['x']), int(row['y']), 0)
 
                 gates[id] = Gate(id, pos)
+        file.close()
         
         return gates
 
@@ -41,6 +42,7 @@ class Chip():
                 b = int(row['chip_b'])
 
                 connections[(a, b)] = Connection((a, b), self.gates[a], self.gates[b])
+        file.close()
         
         return connections
 

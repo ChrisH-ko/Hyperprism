@@ -34,16 +34,20 @@ if __name__ == "__main__":
     # vis.vis_solver(sno)
 
     # ------------------------ hardest first astar ------------------
-    hno = hfs.Hardest_Net_Order(model)
-    hno.run()
-    print(hno.nets)
-    print(hno.cost(), str(hno.completion()*100) + '%% complete')
-    vis.vis_solver(hno)
+    # hno = hfs.Hardest_Net_Order(model)
+    # hno.run()
+    # print(hno.nets)
+    # print(hno.cost(), str(hno.completion()*100) + '%% complete')
+    # vis.vis_solver(hno)
 
 
     # ------------------------ baseline test ------------------------
     baseline_test = False
     if baseline_test:
-        m, costs, comp = test.run_n(model, ns.Random_Net_Order, 100, save=True)
+        m, costs, comp = test.run_n(model, ns.Random_Net_Order, 200, save=True)
         display.distribution(costs)
-        vis.visualize(m)
+        print(m.nets)
+        vis.vis_solver(m)
+    
+    data = "outputs/test200.txt"
+    display.distribution(display.load_txt(data))

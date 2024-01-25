@@ -11,7 +11,7 @@ def run_n(model, algorithm, iterations, save=True):
     lowest_cost = 100000
 
     if save:
-        file = open(f"outputs/test{iterations}.txt", 'w')
+        file = open(f"outputs/test{iterations}.txt", 'a')
 
     for i in tqdm.tqdm(range(iterations)):
         solution = algorithm(model, verbose=False)
