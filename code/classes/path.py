@@ -4,11 +4,6 @@ class Path():
     def __init__(self, connection):
         self.connection = connection
         self.segments = [connection.start.position]
-
-        self.heuristic = 0
-
-    # def path_manhattan(self):
-    #     return manhattan(self.current_node(), self.connection.end.position)
     
     def complete(self):
         """
