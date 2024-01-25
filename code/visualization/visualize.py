@@ -5,8 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.path import Path
 
-def visualize(solver):
-    model = solver.model
+def visualize(model):
     total_cost = model.total_cost()
 
     chip = model.chip
@@ -84,3 +83,6 @@ def visualize(solver):
         showlegend=False
     )
     fig.show()
+
+def vis_solver(solver):
+    visualize(solver.model)

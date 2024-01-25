@@ -23,16 +23,17 @@ if __name__ == "__main__":
     rod = rna.Random_Order_Astar(model)
     rod.run()
     print(rod.cost(), str(rod.completion()*100) + '%% complete')
-    vis.visualize(rod)
+    vis.vis_solver(rod)
 
     # ------------------------ shortest first astar-----------------
     sa = sfa.Shortest_first_astar(model)
     sa.run()
     print(sa.cost(), str(sa.completion()*100) + '%% complete')
-    vis.visualize(sa)
+    vis.vis_solver(sa)
 
     # ------------------------ baseline test -----------------------
-    baseline_test = True
+    baseline_test = False
     if baseline_test:
-        m, costs, comp = test.run_n(model, rna.Random_Order_Astar, 150, save=True)
+        m, costs, comp = test.run_n(model, rna.Random_Order_Astar, 100, save=True)
         display.distribution(costs)
+        vis.visualize(m)

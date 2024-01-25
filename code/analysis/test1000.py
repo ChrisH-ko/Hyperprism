@@ -6,7 +6,9 @@ def run_n(model, algorithm, iterations, save=True):
     """
     costs = []
     completions = []
-    models = []
+
+    best_model = None
+    lowest_cost = 100000
 
     if save:
         file = open(f"outputs/test{iterations}.txt", 'w')
@@ -18,9 +20,12 @@ def run_n(model, algorithm, iterations, save=True):
         cost = solution.cost()
         completion = solution.completion()
 
-        models.append(solution)
         costs.append(cost)
         completions.append(completion)
+
+        if cost < lowest_cost:
+            best_model = solution
+            lowest_cost = cost
     
         if save:
             file.write(str(cost) + ', ' + str(completion) + '\n')
@@ -28,4 +33,4 @@ def run_n(model, algorithm, iterations, save=True):
     if save:
         file.close()
     
-    return models, costs, completions
+    return best_model, costs, completions
