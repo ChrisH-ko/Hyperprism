@@ -23,14 +23,18 @@ class Net_Solver():
         return self.model.net_completion()
     
     def run(self):
+        print('pathfinder:')
         if self.verbose:
             nets = tqdm.tqdm(self.nets)
         else:
             nets = self.nets
 
-        print('pathfinder:', self.pathfinder)
         for net in nets:
             path = self.model.paths[net]
+
+            if path.complete():
+                path = path.blank_copy_path()
+                self.model.remove_path(net)
 
             solver = self.pathfinder(self.model, path)
             solver.run()

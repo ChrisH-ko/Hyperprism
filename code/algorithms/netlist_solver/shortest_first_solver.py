@@ -15,3 +15,6 @@ class Shortest_Net_Order(Net_Solver):
             nets.add(net, manhattan(path))
         
         return nets.get_all()
+    
+    def __repr__(self):
+        return 'Shortest_Net_First'

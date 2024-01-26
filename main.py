@@ -29,11 +29,11 @@ if __name__ == "__main__":
     vis.vis_solver(rno)
 
     # ------------------------ shortest first astar -----------------
-    # sno = sfs.Shortest_Net_Order(model, 1)
-    # sno.run()
-    # print(sno.cost(), str(sno.completion()*100) + '%% complete')
-    # print("Intersections:", sno.model.intersections, '\n')
-    # vis.vis_solver(sno)
+    sno = sfs.Shortest_Net_Order(model, 0)
+    sno.run()
+    print(sno.cost(), str(sno.completion()*100) + '%% complete')
+    print("Intersections:", sno.model.intersections, '\n')
+    vis.vis_solver(sno)
 
     # ------------------------ hardest first astar ------------------
     hno = hfs.Hardest_Net_Order(model, 1)
@@ -42,6 +42,12 @@ if __name__ == "__main__":
     print("Intersections:", hno.model.intersections, '\n')
     vis.vis_solver(hno)
 
+    # ------------------------ reconnect astar ----------------------
+    reconnected = sfs.Shortest_Net_Order(hno.model, 0)
+    reconnected.run()
+    print("Cost:", reconnected.cost(), str(reconnected.completion()*100) + '%% complete')
+    print("Intersections:", reconnected.model.intersections, '\n')
+    vis.vis_solver(reconnected)
 
     # ------------------------ baseline test ------------------------
     baseline_test = False

@@ -34,6 +34,9 @@ class Model():
         else:
             print("incomplete path")
     
+    def remove_path(self, id):
+        self.paths[id] = self.paths[id].blank_copy_path()
+
     def complete_connection(self, net_id):
         """
         Check if a net has been completed.

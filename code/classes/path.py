@@ -86,6 +86,11 @@ class Path():
 
         return new_path
     
+    def blank_copy_path(self):
+        blank_copy = copy.copy(self)
+        blank_copy.segments = [blank_copy.connection.start.position]
+        return blank_copy
+    
     def __len__(self):
         """
         Return the length of the path. That is, the number
