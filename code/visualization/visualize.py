@@ -11,6 +11,7 @@ def visualize(model):
     chip = model.chip
     chip_id = chip.id
     netlist_id = chip.net_id
+    intersections = model.intersections
 
     paths = model.paths
 
@@ -54,7 +55,10 @@ def visualize(model):
 
     fig.update_layout(
         title=dict(
-            text=f"Chip {chip_id} <br>Netlist #{netlist_id} <br>Total cost: {total_cost}",
+            text=f"""   Chip {chip_id} <br>
+                        Netlist #{netlist_id} <br>
+                        Total cost: {total_cost} <br>
+                        Intersections: {intersections}""",
             xanchor='right',
             yanchor='top',
             x = 0.5,
