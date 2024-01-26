@@ -22,23 +22,25 @@ if __name__ == "__main__":
     # Create a model from our chip to create the connections in
     model = mod.Model(test_chip)
     # ------------------------ Random order astar -------------------
-    # rno = ns.Random_Net_Order(model)
-    # rno.run()
-    # print(rno.cost(), str(rno.completion()*100) + '%% complete')
-    # vis.vis_solver(rno)
+    rno = ns.Random_Net_Order(model, 1)
+    rno.run()
+    print("Cost:", rno.cost(), str(rno.completion()*100) + '%% complete')
+    print("Intersections:", rno.model.intersections, '\n')
+    vis.vis_solver(rno)
 
     # ------------------------ shortest first astar -----------------
-    # sno = sfs.Shortest_Net_Order(model)
+    # sno = sfs.Shortest_Net_Order(model, 1)
     # sno.run()
     # print(sno.cost(), str(sno.completion()*100) + '%% complete')
+    # print("Intersections:", sno.model.intersections, '\n')
     # vis.vis_solver(sno)
 
     # ------------------------ hardest first astar ------------------
-    # hno = hfs.Hardest_Net_Order(model)
-    # hno.run()
-    # print(hno.nets)
-    # print(hno.cost(), str(hno.completion()*100) + '%% complete')
-    # vis.vis_solver(hno)
+    hno = hfs.Hardest_Net_Order(model, 1)
+    hno.run()
+    print("Cost:", hno.cost(), str(hno.completion()*100) + '%% complete')
+    print("Intersections:", hno.model.intersections, '\n')
+    vis.vis_solver(hno)
 
 
     # ------------------------ baseline test ------------------------
@@ -49,5 +51,5 @@ if __name__ == "__main__":
         print(m.nets)
         vis.vis_solver(m)
     
-    data = "outputs/test200.txt"
-    display.distribution(display.load_txt(data))
+    # data = "outputs/test200.txt"
+    # display.distribution(display.load_txt(data))

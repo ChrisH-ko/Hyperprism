@@ -2,12 +2,16 @@ import random
 import tqdm
 
 from code.algorithms.path_solver.standard_astar_alg import Standard_pathwise_astar
+from code.algorithms.path_solver.make_space_astar import Make_Space
+
+pathfinders = [Standard_pathwise_astar, Make_Space]
 
 class Net_Solver():
-    def __init__(self, model, verbose=True):
+    def __init__(self, model, pathfinder=0, verbose=True):
         self.model = model.copy_model()
         self.nets = self.get_net_order()
         self.verbose = verbose
+        self.pathfinder = pathfinders[pathfinder]
 
     def get_net_order(self):
         return list(self.model.paths.values)
@@ -24,10 +28,11 @@ class Net_Solver():
         else:
             nets = self.nets
 
+        print('pathfinder:', self.pathfinder)
         for net in nets:
             path = self.model.paths[net]
 
-            solver = Standard_pathwise_astar(self.model, path)
+            solver = self.pathfinder(self.model, path)
             solver.run()
             new_path = solver.solution
             self.model.add_path(net, new_path)

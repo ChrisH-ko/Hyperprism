@@ -17,7 +17,6 @@ class Hardest_Net_Order(Net_Solver):
             gates.add(gate, connections)
         
         gates = gates.get_all()
-        print(gates)
 
         for net in nets:
             i = gates.index(net[0])

@@ -29,3 +29,6 @@ class Priority_Queue():
         if len(self.queue) == 0:
             return False
         return True
+    
+    def __repr__(self):
+        return str([(elem.item, elem.value) for elem in self.queue])
