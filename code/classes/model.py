@@ -5,7 +5,7 @@ class Model():
     def __init__(self, chip):
         self.chip = chip
         self.paths = self.load_paths(chip)
-        self.intersections = 0
+        self.intersections = {}
     
     def load_paths(self, chip):
         """
@@ -28,14 +28,28 @@ class Model():
         if id != path.connection.id:
             print("id and path do not match")
         elif path.complete():
-            k = self.count_intersections(path)
+            _, crossings = self.find_intersections(path)
             self.paths[id] = path
-            self.intersections += k
+            self.update_intersections(crossings, id)
         else:
             print("incomplete path")
     
     def remove_path(self, id):
         self.paths[id] = self.paths[id].blank_copy_path()
+
+        for pos in self.intersections:
+            if id in self.intersections[pos]:
+                self.intersections[pos].remove(id)
+            
+        self.intersections = {pos:nets for pos, nets in self.intersections.items() if len(nets) > 1}
+    
+    def update_intersections(self, crossings, id):
+        for pos in crossings:
+            if pos not in self.intersections:
+                self.intersections[pos] = crossings[pos]
+            
+            if id not in self.intersections[pos]:
+                self.intersections[pos].append(id)
 
     def complete_connection(self, net_id):
         """
@@ -62,7 +76,7 @@ class Model():
 
         return valid_moves
     
-    def count_intersections(self, path):
+    def find_intersections(self, path):
         """
         Count the number of unique intersections a path introduces.
         """
@@ -72,17 +86,19 @@ class Model():
         other_paths = self.get_nets()
         other_paths.remove(id)
 
-        crossings = set()
+        crossings = {}
         for id in other_paths:
             path_b = self.paths[id].wires()
 
             # Check if the two paths contain matching positions.
-            crossing = [xy for xy in path_a if xy in path_b]
+            crossing = {pos:[id] for pos in path_a if pos in path_b}
             crossings.update(crossing)
         
         k = len(crossings)
-
-        return k
+        return k, crossings
+    
+    def count_intersections(self, path):
+        return self.find_intersections(path)[0]
     
     def filter_collisions(self, current_node, moves):
         """
@@ -117,7 +133,7 @@ class Model():
         for net in self.get_nets():
             total_length += len(self.paths[net])
         
-        k = self.intersections
+        k = len(self.intersections)
 
         return total_length + k * 300
     
