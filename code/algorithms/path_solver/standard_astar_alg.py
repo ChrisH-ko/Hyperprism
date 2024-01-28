@@ -26,17 +26,21 @@ class Standard_pathwise_astar():
             child = path.copy_path()
             child.move(a)
 
-            self.update_queue_and_archive(child)
+            cost = self.path_cost(child)
+            heuristic = self.heuristic(child)
+
+            self.update_queue_and_archive(child, cost, heuristic)
     
-    def update_queue_and_archive(self, path):
+    def update_queue_and_archive(self, path, cost, heuristic):
         position = path.current_node()
-        cost = self.model.path_cost(path)
-        heuristic = self.heuristic(path)
 
         if position not in self.lowest_cost or cost < self.lowest_cost[position]:
             self.lowest_cost[position] = cost
             self.cheapest_path[position] = path
             self.queue.add(position, cost+heuristic)
+    
+    def path_cost(self, path):
+        return self.model.path_cost(path)
 
     def heuristic(self, path):
         return manhattan(path)
