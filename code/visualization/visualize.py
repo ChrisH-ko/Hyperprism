@@ -52,13 +52,31 @@ def visualize(model):
                 mode='lines',
                 name=str(net),
                 line = dict(color=clr, width=4)))
+        
+    int_x = [pos[0] for pos in intersections]
+    int_y = [pos[1] for pos in intersections]
+    int_z = [pos[2] for pos in intersections]
+    int_text = [str(intersections[pos] for pos in intersections)]
+
+    fig.add_trace(go.Scatter3d(x=int_x, y=int_y, z = int_z,
+                    mode='markers',
+                    name='intersections',
+                    hovertext=int_text,
+                    marker= dict(
+                        symbol= 'x',
+                        color='#f500e0',
+                        size=6,
+                        line=dict(
+                            color='MediumPurple',
+                            width=2
+                        ))))
 
     fig.update_layout(
         title=dict(
             text=f"""   Chip {chip_id} <br>
                         Netlist #{netlist_id} <br>
                         Total cost: {total_cost} <br>
-                        Intersections: {intersections}""",
+                        Intersections: {len(intersections)}""",
             xanchor='right',
             yanchor='top',
             x = 0.5,
