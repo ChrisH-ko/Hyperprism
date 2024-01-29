@@ -7,7 +7,9 @@ class Model():
     def __init__(self, chip):
         self.chip = chip
         self.paths = self.load_paths(chip)
+
         self.intersections = {}
+        self.intersection_cost = 300
     
     def load_paths(self, chip):
         """
@@ -37,8 +39,12 @@ class Model():
             print("incomplete path")
     
     def remove_path(self, id):
+        """
+        Remove the segments of a path from the model.
+        """
         self.paths[id] = self.paths[id].blank_copy_path()
 
+        # Remove the path from the intersection dictionary
         for pos in self.intersections:
             if id in self.intersections[pos]:
                 self.intersections[pos].remove(id)
@@ -46,12 +52,30 @@ class Model():
         self.intersections = {pos:nets for pos, nets in self.intersections.items() if len(nets) > 1}
     
     def update_intersections(self, crossings, id):
+        """
+        Update the intersection dictionary with a path and the intersections it has.
+        """
         for pos in crossings:
+            # Add the location of the crossing to the keys if it does not exist
             if pos not in self.intersections:
                 self.intersections[pos] = crossings[pos]
             
+            # Add the path to an existing crossing if it already exists.
             if id not in self.intersections[pos]:
                 self.intersections[pos].append(id)
+
+    def lower_bound_cost(self):
+        """
+        Return the lower bound of the total cost. The cost if every
+        net had the shortest possible connection.
+        """
+        lowest_cost = 0
+
+        for net in self.get_nets():
+            shortest_path = self.paths[net].lowest_length()
+            lowest_cost += shortest_path
+
+        return lowest_cost
 
     def complete_connection(self, net_id):
         """
@@ -80,7 +104,7 @@ class Model():
     
     def find_intersections(self, path):
         """
-        Count the number of unique intersections a path introduces.
+        Find the unique intersections a path introduces.
         """
         id = path.connection.id
         path_a = path.segments
@@ -100,6 +124,9 @@ class Model():
         return k, crossings
     
     def count_intersections(self, path):
+        """
+        Return the amount of intersections a path would introduce.
+        """
         return self.find_intersections(path)[0]
     
     def filter_collisions(self, current_node, moves):
@@ -125,7 +152,7 @@ class Model():
         Calculate the cost a path would add to the chip if it were added.
         """
         k = self.count_intersections(path)
-        return len(path) + k * 300
+        return len(path) + k * self.intersection_cost
     
     def total_cost(self):
         """
@@ -137,7 +164,7 @@ class Model():
         
         k = len(self.intersections)
 
-        return total_length + k * 300
+        return total_length + k * self.intersection_cost
     
     def net_completion(self):
         """
@@ -153,6 +180,9 @@ class Model():
         return complete_nets / total_nets
 
     def complete(self):
+        """
+        Check if this model's solution is valid.
+        """
         if self.net_completion() == 1:
             return True
         return False
@@ -186,6 +216,9 @@ class Model():
         print(f"chip_{id}_net_{net_id}", self.total_cost())
     
     def write_output(self):
+        """
+        Write this model's solution to an output file.
+        """
         if not self.complete():
             raise Exception("This model is not a complete solution.")
         

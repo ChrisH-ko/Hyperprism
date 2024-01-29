@@ -1,9 +1,17 @@
 import copy
 
+from code.algorithms.functions.manhattan_distance import manhattan
+
 class Path():
     def __init__(self, connection):
         self.connection = connection
         self.segments = [connection.start.position]
+    
+    def lowest_length(self):
+        """
+        Return the lowest possible path length.
+        """
+        return manhattan(self)
     
     def complete(self):
         """
@@ -87,6 +95,9 @@ class Path():
         return new_path
     
     def blank_copy_path(self):
+        """
+        Return a a fresh coppy of itself.
+        """
         blank_copy = copy.copy(self)
         blank_copy.segments = [blank_copy.connection.start.position]
         return blank_copy
