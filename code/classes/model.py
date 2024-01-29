@@ -1,4 +1,6 @@
 import copy
+import csv
+
 from .path import Path
 
 class Model():
@@ -149,6 +151,11 @@ class Model():
                 complete_nets += 1
         
         return complete_nets / total_nets
+
+    def complete(self):
+        if self.net_completion() == 1:
+            return True
+        return False
     
     def get_nets(self):
         """
@@ -177,3 +184,21 @@ class Model():
         for net in self.chip.netlist:
             print(self.chip.netlist[net], self.paths[net])
         print(f"chip_{id}_net_{net_id}", self.total_cost())
+    
+    def write_output(self):
+        if not self.complete():
+            raise Exception("This model is not a complete solution.")
+        
+        file = 'outputs/models/output.csv'
+
+        with open(file, 'w') as f:
+            writer = csv.writer(f)
+
+            writer.writerow(['net', 'wires'])
+
+            for net in self.get_nets():
+                writer.writerow([str(net), str(self.paths[net].segments)])
+            
+            writer.writerow([f'chip_{self.chip.id}_net_{self.chip.net_id}', self.total_cost()])
+        
+        f.close()

@@ -11,9 +11,9 @@ class Simulated_Annealing(Hillclimber):
         self.T = temperature
 
     def update_temperature(self):
-        # self.T = self.T - (self.T0 / self.i)
-        alpha = 0.94
-        self.T = self.T * alpha
+        self.T = self.T - (self.T0 / self.i)
+        # alpha = 0.94
+        # self.T = self.T * alpha
     
     def check_solution(self, new_solution):
         if new_solution.completion() == 1:

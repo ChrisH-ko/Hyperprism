@@ -13,7 +13,7 @@ def run_n(model, algorithm, iterations, save=True):
     if save:
         file = open(f"outputs/test{iterations}.txt", 'a')
 
-    for i in tqdm.tqdm(range(iterations)):
+    for _ in tqdm.tqdm(range(iterations)):
         solution = algorithm(model, verbose=False)
         solution.run()
 

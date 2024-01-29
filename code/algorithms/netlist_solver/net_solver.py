@@ -79,6 +79,13 @@ class Net_Solver():
     def wipe_model(self):
         for net in self.nets:
             self.model.remove_path(net)
+    
+    def results(self):
+        if self.completion() == 0:
+            raise Exception('Solver not run yet.')
+        
+        print("Cost:", self.cost(), str(self.completion()*100) + '%% complete')
+        print("Intersections:", len(self.model.intersections), '\n')
 
 
 class Random_Net_Order(Net_Solver):
