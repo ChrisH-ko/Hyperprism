@@ -36,3 +36,22 @@ def distribution(values):
         ),
     )
     fig.show()
+
+def cost_decrease(climber):
+    x = [i for i in range(len(climber.progress))]
+    y = climber.progress
+
+    fig = go.Figure(data=[go.Scatter(x=x, y=y,
+                                     mode='lines',
+                                     name='Cost')])
+
+    fig.update_layout(
+        title=f'{climber}, {len(x)} iterations',
+        xaxis_title='Iterations',
+        yaxis_title='Cost',
+        font=dict(
+            size=16
+        ),
+    )
+
+    fig.show()
