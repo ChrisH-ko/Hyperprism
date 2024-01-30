@@ -5,16 +5,27 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.path import Path
 
-def visualize(model):
-    total_cost = model.total_cost()
-
+def visualize(model, algorithms):
+    """
+    Display a chip and its paths on a 3d scatterplot using plotly.
+    """
     chip = model.chip
+    intersections = model.intersections
+    paths = model.paths
+    
+    # --------------------------------- Title -----------------------
     chip_id = chip.id
     netlist_id = chip.net_id
-    intersections = model.intersections
+    algorithms = ' -> '.join(algorithms)
+    total_cost = model.total_cost()
+    n_intersections = model.n_intersections
 
-    paths = model.paths
+    title = f"""Chip {chip_id}, Netlist #{netlist_id} <br>
+                {algorithms} <br>
+                Total cost: {total_cost} <br>
+                Intersections: {n_intersections}"""
 
+    # --------------------------------- Gates -----------------------
     gates_x = [chip.gates[i].position[0] for i in chip.gates]
     gates_y = [chip.gates[i].position[1] for i in chip.gates]
     gates_z = [chip.gates[i].position[2] for i in chip.gates]
@@ -36,6 +47,7 @@ def visualize(model):
                         symbol='square',
                         color='red')))
 
+    # --------------------------------- Netlist ---------------------
     for i, net in enumerate(chip.netlist):
         if i % 2 == 0:
             clr = '#0749b3'
@@ -52,7 +64,8 @@ def visualize(model):
                 mode='lines',
                 name=str(net),
                 line = dict(color=clr, width=4)))
-        
+
+    # --------------------------------- Intersections ---------------
     int_x = [pos[0] for pos in intersections]
     int_y = [pos[1] for pos in intersections]
     int_z = [pos[2] for pos in intersections]
@@ -71,12 +84,10 @@ def visualize(model):
                             width=2
                         ))))
 
+    # --------------------------------- Layout ----------------------
     fig.update_layout(
         title=dict(
-            text=f"""   Chip {chip_id} <br>
-                        Netlist #{netlist_id} <br>
-                        Total cost: {total_cost} <br>
-                        Intersections: {len(intersections)}""",
+            text=title,
             xanchor='right',
             yanchor='top',
             x = 0.5,
@@ -104,6 +115,7 @@ def visualize(model):
         ),
         showlegend=False
     )
+
     fig.show()
 
 def vis_solver(solver):
