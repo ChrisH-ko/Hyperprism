@@ -12,7 +12,6 @@ pathfinders = {
     'make_space': Make_Space
     }
 
-random.seed(0)
 
 class Net_Solver():
     """
@@ -55,19 +54,19 @@ class Net_Solver():
         path = old_path.blank_copy_path()
 
         # Connect the net with a pathfinder
-        solver = pathfinders[pathfinder](self.model, path)
+        solver = pathfinder(self.model, path)
         solver.run()
         new_path = solver.solution
 
         return old_path, new_path
     
-    def run(self, from_scratch=True, pathfinder='standard', verbose=True):
+    def run(self, pathfinder=Standard_pathwise_astar, from_scratch=True, verbose=True):
         """
         Connect the nets in a given order with a given pathfinder.
         Can also reconnect the nets if the model already contains a solution.
         """
         # Adds progress bar to for-loop if verbose is True.
-        nets = self.check_verbose(pathfinder, verbose)
+        nets = self.check_verbose(self.nets, pathfinder, verbose)
 
         # If from_scratch is True, removes any existing paths in the model.
         if from_scratch:
@@ -99,14 +98,13 @@ class Net_Solver():
         
         self.model.add_path(net, old_path)
     
-    def check_verbose(self, pathfinder, verbose):
+    def check_verbose(self, nets, pathfinder, verbose):
         """
         Returns the net order with a progress bar if verbose is True.
         """
         if verbose:
-            print(f'pathfinder: {pathfinder}')
-            return tqdm.tqdm(self.nets)
-        return self.nets
+            return tqdm.tqdm(nets)
+        return nets
     
     def wipe_model(self):
         """

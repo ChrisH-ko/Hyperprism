@@ -1,5 +1,9 @@
+import random
+
 from code.classes import chip
 from code.classes import model as mod
+
+from code.algorithms.functions import solve_model as solve
 
 from code.visualization import visualize as vis
 from code.visualization import display_data as display
@@ -8,37 +12,77 @@ from code.algorithms.netlist_solver import shortest_first_solver as sfs
 from code.algorithms.netlist_solver import hardest_first_solver as hfs
 from code.algorithms.netlist_solver import hillclimber as hc
 from code.algorithms.netlist_solver import simulated_annealing as sa
+from code.algorithms.netlist_solver import fix_crossings as fc
+
 
 from code.analysis import test1000 as test
 
-if __name__ == "__main__":
-    chip_id = 1
-    net_id = 4
+random.seed(0)
 
+def get_chip():
+    """
+    Get chip and netlist from user input.
+    """
+    chip_id = None
+    net_id = None
+
+    print('\n \n')
+    while chip_id is None:
+        chip_id = input('enter chip_id: ')
+    while net_id is None:
+        net_id = input('enter net_id: ')
+    
     chip_file = f'gates&netlists/chip_{chip_id}/print_{chip_id}.csv'
     netlist = f'gates&netlists/chip_{chip_id}/netlist_{net_id}.csv'
 
     # Create a chip and load in a netlist from our data
-    test_chip = chip.Chip(chip_id, chip_file, net_id, netlist)
+    return chip.Chip(chip_id, chip_file, net_id, netlist)
+
+def get_action():
+    print('\n')
+    action = None
+
+    print('solve model, experiment or quit?')
+    print(['solve', 'experiment', 'quit'])
+    while action not in ['solve', 'experiment', 'quit']:
+        action = input(': ')
+    return action
+
+        
+
+if __name__ == "__main__":
+
+    # Load chip from user input
+    static_chip = get_chip()
 
     # Create a model from our chip to create the connections in
-    model = mod.Model(test_chip)
-    print(f'Cost lower bound: {model.lower_bound_cost()} \n')
+    model = mod.Model(static_chip)
+    print(f'Cost lower bound: {model.lower_bound_cost()}')
+
+    action = None
+    solution = None
+    history = []
+
+    while action != 'quit':
+        action = get_action()
+
+        if action == 'solve':
+            solution, history = solve.solve_model(model, solution, history)
 
     # ------------------------ Random order astar -------------------
-    rno = ns.Random_Net_Order(model)
+    # rno = ns.Random_Net_Order(model)
 
-    rno.run()
-    rno.results()
-    vis.vis_solver(rno)
+    # rno.run()
+    # rno.results()
+    # vis.vis_solver(rno)
 
     # ------------------------ baseline test ------------------------
-    baseline_test = False
-    if baseline_test:
-        m, costs, comp = test.run_n(model, ns.Random_Net_Order, 200, save=True)
-        display.distribution(costs)
-        print(m.nets)
-        vis.vis_solver(m)
+    # baseline_test = False
+    # if baseline_test:
+    #     m, costs, comp = test.run_n(model, ns.Random_Net_Order, 200, save=True)
+    #     display.distribution(costs)
+    #     print(m.nets)
+    #     vis.vis_solver(m)
 
     # ------------------------ shortest first astar -----------------
     # sno = sfs.Shortest_Net_Order(model)
@@ -46,12 +90,20 @@ if __name__ == "__main__":
     # sno.results()
     # vis.vis_solver(sno)
 
-    # ------------------------ hardest first astar ------------------
-    hno = hfs.Hardest_Net_Order(model)
+    # # ------------------------ hardest first astar ------------------
+    # hno = hfs.Hardest_Net_Order(model)
     
-    hno.run(pathfinder='make_space')
-    hno.results()
-    vis.vis_solver(hno)
+    # hno.run(pathfinder='make_space')
+    # hno.results()
+    # vis.vis_solver(hno)
+
+    # ------------------------ fix intersections --------------------
+    # fix = fc.Fix_Crossings(hno)
+    # fix.run()
+
+    # best = fix.best_solution
+    # best.results()
+    # vis.vis_solver(best)
 
     # ------------------------ reconnect astar ----------------------
     # reconnected = sfs.Shortest_Net_Order(hno.model)
