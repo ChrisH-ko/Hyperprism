@@ -1,4 +1,4 @@
-import numpy as np
+import math
 
 from .standard_astar_alg import Standard_pathwise_astar
 from code.algorithms.functions.manhattan_distance import manhattan
@@ -18,7 +18,7 @@ class Make_Space(Standard_pathwise_astar):
         self.other_gates = self.load_other_gate_positions()
         self.adjacent_to_gates = self.load_adjacent_to_gates()
     
-    
+
     def load_other_gate_positions(self):
         """
         Load the positions of all gates on the chip not involved in this path.
@@ -121,7 +121,7 @@ class Make_Space(Standard_pathwise_astar):
         base_score = 10
 
         num = (x - x0)**2 + (y - y0)**2
-        return -10 * np.exp(-(num/0.5)) + base_score
+        return -10 * math.exp(-(num/0.5)) + base_score
     
 
     def check_adjacency_gate(self, node):
