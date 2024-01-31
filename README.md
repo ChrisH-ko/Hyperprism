@@ -44,3 +44,5 @@ The provided pathfinders include:
 *Standard* connects the gates with the cheapest available path using the A* algorithm and the manhattan distance as the heuristic. *Make_space* is a variation on *standard*, whereby upon calculating the priority of a path, the influence of the path's length and manhattan distance gets discounted, it gets rewarded for staying on a higher layer as well as being above the target gate and it gets punished for being next to a gate that is not the startor end point of the net. In other words, this algorithm gives paths an incentive to try and make more space for other nets.
 
 After having solved the model, its details are displayed as well as a visualization of the solution upon user request.
+
+The latest solution will be saved, since *solve* can be selected once more to rewire the nets in an existing solution in an attempt to lower the cost by replacing them with shorter available wires. One can for instance run a netsolver with the *make_space* pathfinder and rewire the solution with a different netsolver using the *standard* pathfinder to obtain a chip with possibly a low cost.
