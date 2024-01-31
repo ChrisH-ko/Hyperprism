@@ -6,18 +6,6 @@ from code.classes import model as mod
 from code.algorithms.functions import solve_model as solve
 from code.algorithms.functions import experiment as exp
 
-from code.visualization import visualize as vis
-from code.visualization import display_data as display
-from code.algorithms.netlist_solver import net_solver as ns
-from code.algorithms.netlist_solver import shortest_first_solver as sfs
-from code.algorithms.netlist_solver import hardest_first_solver as hfs
-from code.algorithms.netlist_solver import hillclimber as hc
-from code.algorithms.netlist_solver import simulated_annealing as sa
-from code.algorithms.netlist_solver import fix_crossings as fc
-
-
-from code.analysis import testn as test
-
 random.seed(0)
 
 def get_chip():
