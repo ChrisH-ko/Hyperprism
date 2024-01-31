@@ -87,6 +87,7 @@ def get_algorithm(type):
     elif type == 'path':
         name, choices = 'pathfinder', list(pathfinders.keys())
 
+    # Get user input
     algorithm = None
     print(f'Which {name}? \n{choices}')
     while algorithm not in choices:
