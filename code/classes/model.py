@@ -4,6 +4,9 @@ import csv
 from .path import Path
 
 class Model():
+    """
+    Model class that will contain the chip and the paths that formthe solution.
+    """
     def __init__(self, chip):
         self.chip = chip
         self.paths = self.load_paths(chip)
