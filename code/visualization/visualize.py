@@ -1,10 +1,5 @@
 import plotly.graph_objects as go
 
-import matplotlib.pyplot as plt
-
-import matplotlib.patches as patches
-from matplotlib.path import Path
-
 def visualize(model, algorithms):
     """
     Display a chip and its paths on a 3d scatterplot using plotly.
