@@ -9,3 +9,9 @@ To make things easier, we will consider the wiring problem only. The gates have 
 
 ### Requirements
 This project has been written in Python 3.8. Any neccesary packages can be found in requirements.txt.
+
+## How to use
+```
+python3.8 main.py
+```
+When running the program, you will be asked to enter a chip_id and net_id. These can be found in **/gates&netlists**.
