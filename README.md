@@ -42,3 +42,5 @@ The provided pathfinders include:
 - *make_space*
 
 *Standard* connects the gates with the cheapest available path using the A* algorithm and the manhattan distance as the heuristic. *Make_space* is a variation on *standard*, whereby upon calculating the priority of a path, the influence of the path's length and manhattan distance gets discounted, it gets rewarded for staying on a higher layer as well as being above the target gate and it gets punished for being next to a gate that is not the startor end point of the net. In other words, this algorithm gives paths an incentive to try and make more space for other nets.
+
+After having solved the model, its details are displayed as well as a visualization of the solution upon user request.
