@@ -14,8 +14,8 @@ def run_n(model, algorithm, iterations, save=True):
         file = open(f"outputs/test{iterations}.txt", 'a')
 
     for _ in tqdm.tqdm(range(iterations)):
-        solution = algorithm(model, verbose=False)
-        solution.run()
+        solution = algorithm(model)
+        solution.run(verbose=False)
 
         cost = solution.cost()
         completion = solution.completion()
@@ -23,7 +23,7 @@ def run_n(model, algorithm, iterations, save=True):
         costs.append(cost)
         completions.append(completion)
 
-        if cost < lowest_cost:
+        if cost < lowest_cost and completion == 1:
             best_model = solution
             lowest_cost = cost
     
