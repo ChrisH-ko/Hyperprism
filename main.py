@@ -4,6 +4,7 @@ from code.classes import chip
 from code.classes import model as mod
 
 from code.algorithms.functions import solve_model as solve
+from code.algorithms.functions import experiment as exp
 
 from code.visualization import visualize as vis
 from code.visualization import display_data as display
@@ -15,7 +16,7 @@ from code.algorithms.netlist_solver import simulated_annealing as sa
 from code.algorithms.netlist_solver import fix_crossings as fc
 
 
-from code.analysis import test1000 as test
+from code.analysis import testn as test
 
 random.seed(0)
 
@@ -26,6 +27,7 @@ def get_chip():
     chip_id = None
     net_id = None
 
+    # User input, chip and net
     print('\n \n')
     while chip_id is None:
         chip_id = input('enter chip_id: ')
@@ -38,17 +40,21 @@ def get_chip():
     # Create a chip and load in a netlist from our data
     return chip.Chip(chip_id, chip_file, net_id, netlist)
 
+
 def get_action():
+    """
+    From user input, get the next course of action
+    """
     print('\n')
     action = None
 
+    # User input
     print('solve model, experiment or quit?')
     print(['solve', 'experiment', 'quit'])
     while action not in ['solve', 'experiment', 'quit']:
         action = input(': ')
     return action
 
-        
 
 if __name__ == "__main__":
 
@@ -66,70 +72,10 @@ if __name__ == "__main__":
     while action != 'quit':
         action = get_action()
 
+        # Solve the model, save the solution and how it was solved
         if action == 'solve':
             solution, history = solve.solve_model(model, solution, history)
-
-    # ------------------------ Random order astar -------------------
-    # rno = ns.Random_Net_Order(model)
-
-    # rno.run()
-    # rno.results()
-    # vis.vis_solver(rno)
-
-    # ------------------------ baseline test ------------------------
-    # baseline_test = False
-    # if baseline_test:
-    #     m, costs, comp = test.run_n(model, ns.Random_Net_Order, 200, save=True)
-    #     display.distribution(costs)
-    #     print(m.nets)
-    #     vis.vis_solver(m)
-
-    # ------------------------ shortest first astar -----------------
-    # sno = sfs.Shortest_Net_Order(model)
-    # sno.run(pathfinder='standard')
-    # sno.results()
-    # vis.vis_solver(sno)
-
-    # # ------------------------ hardest first astar ------------------
-    # hno = hfs.Hardest_Net_Order(model)
-    
-    # hno.run(pathfinder='make_space')
-    # hno.results()
-    # vis.vis_solver(hno)
-
-    # ------------------------ fix intersections --------------------
-    # fix = fc.Fix_Crossings(hno)
-    # fix.run()
-
-    # best = fix.best_solution
-    # best.results()
-    # vis.vis_solver(best)
-
-    # ------------------------ reconnect astar ----------------------
-    # reconnected = sfs.Shortest_Net_Order(hno.model)
-    # reconnected.run(pathfinder='standard', from_scratch=False)
-    # reconnected.results()
-    # vis.vis_solver(reconnected)
-
-    # ------------------------ hillclimber --------------------------
-    # climber = hc.Hillclimber(rno)
-    # climber.run(30, verbose=True)
-
-    # best = climber.best_solution
-    # best.results()
-    # vis.vis_solver(best)
-
-    # display.cost_decrease(climber)
-
-    # ------------------------ simmulated annealing -----------------
-    # simmaneal = sa.Simulated_Annealing(hno, temperature=500)
-    # simmaneal.run(30, pathfinder='standard', from_scratch=False, verbose=True)
-    
-    # best = simmaneal.best_solution
-    # best.results()
-    # vis.vis_solver(best)
-
-    # display.cost_decrease(simmaneal)
-    
-    # data = "outputs/test200.txt"
-    # display.distribution(display.load_txt(data))
+        
+        # Carry out an experiment
+        if action == 'experiment':
+            solution, history = exp.run_experiment(model, solution, history)
