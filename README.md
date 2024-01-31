@@ -6,3 +6,6 @@ Chips (or more precisely: integrated circuits) are found in your PC, MacBook, An
 This last step however, the physical real-world process of connecting the gates, is highly volatile. Good arrangements with short nets lead to faster circuits, whereas poor arrangements with long nets lead to slower circuits. Besides, shorter nets are cheaper than long nets, so there is no doubt that a good arrangement of logical gates and short nets between them is of vital importance, both economically and performancewise.
 
 To make things easier, we will consider the wiring problem only. The gates have already been arranged, and all it takes is finding very short wiring patterns.
+
+### Requirements
+This project has been written in Python 3.8. Any neccesary packages can be found in requirements.txt.
