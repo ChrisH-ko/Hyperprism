@@ -18,6 +18,7 @@ class Make_Space(Standard_pathwise_astar):
         self.other_gates = self.load_other_gate_positions()
         self.adjacent_to_gates = self.load_adjacent_to_gates()
     
+    
     def load_other_gate_positions(self):
         """
         Load the positions of all gates on the chip not involved in this path.
@@ -30,6 +31,7 @@ class Make_Space(Standard_pathwise_astar):
         gate_positions.remove(self.goal)
         return gate_positions
     
+
     def load_adjacent_to_gates(self):
         """
         Return a list with all the positions adjacent to a gate not
@@ -45,6 +47,7 @@ class Make_Space(Standard_pathwise_astar):
         
         return positions
     
+
     def update_queue_and_archive(self, path, cost, heuristic):
         """
         Add a path to the queue and archive according to their cost and heuristic.
@@ -55,6 +58,7 @@ class Make_Space(Standard_pathwise_astar):
         if position not in self.cheapest_path:
             self.cheapest_path[position] = path
             self.queue.add(position, cost+heuristic)
+
 
     def path_cost(self, path):
         """
@@ -68,6 +72,7 @@ class Make_Space(Standard_pathwise_astar):
         k = self.model.count_intersections(path)
         return n + k * self.model.intersection_cost
     
+
     def heuristic(self, path):
         """
         Return the current heuristic value of a path.
@@ -98,6 +103,7 @@ class Make_Space(Standard_pathwise_astar):
 
         return height_discount + low_prio_manhattan + target_pitfall + touching_other_gate_penalty
     
+
     def gauss_vicinity(self, path):
         """
         Heuristic function to act as a pitfall using a gauss function.
@@ -117,6 +123,7 @@ class Make_Space(Standard_pathwise_astar):
         num = (x - x0)**2 + (y - y0)**2
         return -10 * np.exp(-(num/0.5)) + base_score
     
+
     def check_adjacency_gate(self, node):
         """
         To avoid staying close to gates from other nets, returns a heuristic value
@@ -131,6 +138,7 @@ class Make_Space(Standard_pathwise_astar):
             return self.model.intersection_cost
         return 0
     
+
     def __repr__(self):
         """
         Make sure that the object is printed properly if it is in a list/dict.
