@@ -9,6 +9,7 @@ class Model():
         self.paths = self.load_paths(chip)
 
         self.intersections = {}
+        self.n_intersections = 0
         self.intersection_cost = 300
     
     def load_paths(self, chip):
@@ -32,9 +33,11 @@ class Model():
         if id != path.connection.id:
             print("id and path do not match")
         elif path.complete():
-            _, crossings = self.find_intersections(path)
+            k, crossings = self.find_intersections(path)
             self.paths[id] = path
+
             self.update_intersections(crossings, id)
+            self.n_intersections += k
         else:
             print("incomplete path")
     
@@ -48,6 +51,7 @@ class Model():
         for pos in self.intersections:
             if id in self.intersections[pos]:
                 self.intersections[pos].remove(id)
+                self.n_intersections = self.n_intersections - 1
             
         self.intersections = {pos:nets for pos, nets in self.intersections.items() if len(nets) > 1}
     
@@ -162,7 +166,7 @@ class Model():
         for net in self.get_nets():
             total_length += len(self.paths[net])
         
-        k = len(self.intersections)
+        k = self.n_intersections
 
         return total_length + k * self.intersection_cost
     
