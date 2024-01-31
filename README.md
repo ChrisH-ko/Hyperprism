@@ -25,3 +25,14 @@ Selecting *solve* will start the solver. Here you can choose a combination of al
 Selecting *experiment* will open up the experiment menu, where you may choose an experiment to run for a certain amount of iterations.
 
 Selecting *quit* will stop the program.
+
+## Solve
+To solve the chip and netlist, you will be asked to enter a *netsolver* and *pathfinder*. The *netsolver* selects an order in which the nets should be solved and the *pathfinder* connects the gates in each net. In other words, the algorithms provided solve the models net by net.
+
+The provided netsolvers include:
+- *standard*
+- *random*
+- *shortest_first*
+- *hardest_first*
+
+*Standard* uses the provided net order from the netlist. *Random* shuffles the netlist in a random order. *Shortest_first* starts with the nets whose gates are closest together. *Hardest_first* starts with the nets whose gates have the most connections.
