@@ -27,7 +27,8 @@ class Hillclimber():
             self.start_solution.nets
         )
 
-        self.progress = [self.start_solution.cost()]
+        self.current_costs = [self.start_solution.cost()]
+        self.new_costs = [self.start_solution.cost()]
 
 
     def current_model(self):
@@ -122,11 +123,12 @@ class Hillclimber():
                 verbose=False
                 )
 
-            # Save new cost.
-            self.progress.append(self.current_solution.cost())
-
             # Comparenew solution with current one.
             self.check_solution(new_solution)
+
+            # Save new cost.
+            self.current_costs.append(self.current_solution.cost())
+            self.new_costs.append(new_solution.cost())
 
 
     def check_verbose(self, verbose, i):
