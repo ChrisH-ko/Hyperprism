@@ -61,6 +61,12 @@ class Chip():
         Returns the nets in the netlist.
         """
         return [net for net in self.netlist]
+
+    def get_gates(self):
+        """
+        Returns the gates on the chip.
+        """
+        return [gate for gate in self.gates.values()]
     
     def check_valid_pos(self, pos):
         """
