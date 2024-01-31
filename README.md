@@ -16,6 +16,9 @@ python3.8 main.py
 ```
 When running the program, you will be asked to enter a chip_id and net_id. These can be found in **/gates&netlists**.
 Having succesfully selected a chip and netlist, the program will provide 3 options:
-- 'solve'
-- 'experiment'
-- 'quit'
+- *solve*
+- *experiment*
+- *quit*
+Selecting *solve* will start the solver. Here you can choose a combination of algorithms to solve the netlist with.
+Selecting *experiment* will open up the experiment menu, where you may choose an experiment to run for a certain amount of iterations.
+Selecting *quit* will stop the program.
