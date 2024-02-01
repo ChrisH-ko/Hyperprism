@@ -46,3 +46,20 @@ The provided pathfinders include:
 After having solved the model, its details are displayed as well as a visualization of the solution upon user request.
 
 The latest solution will be saved, since *solve* can be selected once more to rewire the nets in an existing solution in an attempt to lower the cost by replacing them with shorter available wires. One can for instance run a netsolver with the *make_space* pathfinder and rewire the solution with a different netsolver using the *standard* pathfinder to obtain a chip with possibly a low cost.
+
+## Experiment
+To carry out an experiment, first select one from the ones provided. Those include:
+- *baseline*
+- *hillclimber*
+- *simanneal*
+
+After which you will be asked for the amount of iterations *i* to run the selected experiment on.
+
+- *baseline*
+This test will run the *random* netsolver with the *standard* pathfinder *i* times, recording the cost of each solution on the way. After which, the results can be displayed as a distribution of the costs of the possible solutions.
+
+- *hillclimber*
+This test will run a hillclimber algorithm on a provided solution of the model for *i* iterations. Since a solution is required to start this experiment, you will need to solve the model in *solve* beforehand. The hillclimber algorithm will take the netorder of the solution, change the position of one of the nets in the netorder and solve the model in the new netorder. If the new solution were to be better than the previous, the change is kept. You may select beforehand which pathfinder is used by the hillclimber and whether to only rewire the solution upon solving, or whether to start with an empty chip from scratch. The results of the algorithm can be displayed afterwards.
+
+- *simanneal*
+This test will run a simulated annealing algorithm on a provided solution of the model for *i* iterations same as hillclimber. The same details apply, except that with this algorithm, worse solutions have a certain probability to be kept, decreasing with each iteration as well as the difference in score with the current solution.   
